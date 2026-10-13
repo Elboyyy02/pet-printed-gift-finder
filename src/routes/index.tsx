@@ -106,6 +106,20 @@ function Index() {
               <Button asChild className="mt-5 h-11 w-full font-semibold"><a href={p.url} target="_blank" rel="noopener noreferrer">Personalize this gift <ExternalLink /></a></Button>
             </div>
           </article>)}</div>
+          {featured.length > 0 && <div className="mt-14">
+            <div className="text-center">
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-secondary"><Sparkles className="h-4 w-4" />More from the store</span>
+              <h3 className="mt-3 text-2xl font-extrabold sm:text-3xl">Featured suggestions</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Other personalized Pet Printed gifts worth a look.</p>
+            </div>
+            <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">{featured.map((p) => <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" className="group overflow-hidden rounded-lg border border-border bg-card text-left">
+              <img src={p.image} alt={p.name} width={800} height={800} className="aspect-square w-full object-cover transition-opacity group-hover:opacity-90" />
+              <div className="p-4">
+                <p className="min-h-12 text-sm font-semibold leading-snug">{p.name}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{p.priceVaries ? "From " : ""}{money(Math.min(...p.variants.map((v) => v.price)))}</p>
+              </div>
+            </a>)}</div>
+          </div>}
           <p className="mt-6 text-center text-xs text-muted-foreground">Catalog checked {CATALOG_CHECKED}. Prices and availability may change; final options and pricing are shown in the store.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3"><Button variant="outline" onClick={() => setStep(4)}><ArrowLeft />Change budget</Button><Button variant="ghost" onClick={restart}><RotateCcw />Start over</Button><Button asChild variant="ghost"><a href="https://pet-printed.com/collections/all" target="_blank" rel="noopener noreferrer">Browse all gifts <ExternalLink /></a></Button></div>
         </div>}
