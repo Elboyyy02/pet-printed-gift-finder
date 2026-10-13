@@ -39,10 +39,6 @@ const STEPS: Step[] = [
     { value: "under-25", label: "Under $25", icon: ShoppingBag }, { value: "25-50", label: "$25-50", icon: Gift },
     { value: "50-plus", label: "$50+", icon: Star }, { value: "any", label: "Any budget", icon: Sparkles },
   ] },
-  { key: "style", title: "What vibe fits them best?", subtitle: "Pick the personality that feels most like them.", options: [
-    { value: "funny", label: "Fun & playful", icon: Sparkles }, { value: "elegant", label: "Elegant & artistic", icon: Star },
-    { value: "cozy", label: "Warm & cozy", icon: Heart },
-  ] },
 ];
 const money = (value: number) => `$${value.toFixed(2)}`;
 const showcase = [PRODUCTS[0], PRODUCTS[2], PRODUCTS[5], PRODUCTS[6]].filter((p) => p !== undefined);
