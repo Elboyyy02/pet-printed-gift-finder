@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { findMatches, matchesBudget } from "./gift-matching";
+import { findMatches, findSuggestions, matchesBudget } from "./gift-matching";
 
 describe("store gift matching", () => {
   it("uses exact budget boundaries", () => {
@@ -33,5 +33,48 @@ describe("store gift matching", () => {
   });
   it("keeps unsupported combinations empty rather than ignoring the budget", () => {
     expect(findMatches({ pet: "other", occasion: "birthday", budget: "50-plus" })).toEqual([]);
+  });
+  it("shows five matched gifts for a broad selection", () => {
+    expect(findMatches({ pet: "dog", occasion: "just-because", productType: "home", budget: "any" })).toHaveLength(5);
+  });
+  it("suggests five more gifts that also fit the answers and skips the shown ones", () => {
+    const answers = { pet: "dog", occasion: "just-because", productType: "home", budget: "any" };
+    const shown = findMatches(answers).map((m) => m.product.id);
+    const extra = findSuggestions(answers, shown, 5);
+    expect(extra).toHaveLength(5);
+    for (const { product, price } of extra) {
+      expect(shown).not.toContain(product.id);
+      expect(product.pets).toContain("dog");
+      expect(product.occasions).not.toContain("memorial");
+      expect(matchesBudget(price, "any")).toBe(true);
+    }
+    expect(extra.filter(({ product }) => product.categories.includes("home")).length).toBeGreaterThan(0);
+  });
+  it("still offers five suggestions when no gift fits every answer", () => {
+    const answers = { pet: "other", occasion: "birthday", productType: "wearables", budget: "50-plus" };
+    expect(findMatches(answers)).toEqual([]);
+    const extra = findSuggestions(answers, [], 5);
+    expect(extra).toHaveLength(5);
+    for (const { product } of extra) {
+      expect(product.occasions).not.toContain("memorial");
+    }
+    expect(extra.filter(({ product }) => product.pets.includes("other")).length).toBeGreaterThan(0);
+    expect(new Set(extra.map((m) => m.product.id)).size).toBe(5);
+  });
+  it("keeps pet and memorial rules firm when widening the budget", () => {
+    const extra = findSuggestions({ pet: "cat", occasion: "memorial", productType: "wearables", budget: "under-25" }, [], 5);
+    expect(extra).toHaveLength(5);
+    for (const { product, price } of extra) {
+      expect(product.pets).toContain("cat");
+      expect(product.occasions).toContain("memorial");
+      expect(price).toBeGreaterThan(0);
+    }
+  });
+  it("never repeats a suggested gift", () => {
+    const answers = { pet: "dog", occasion: "holiday", productType: "fun", budget: "any" };
+    const shown = findMatches(answers).map((m) => m.product.id);
+    const extra = findSuggestions(answers, shown, 5);
+    expect(extra).toHaveLength(5);
+    expect(shown.filter((id) => extra.some((m) => m.product.id === id))).toEqual([]);
   });
 });
