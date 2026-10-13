@@ -24,7 +24,7 @@ const STEPS = [
   ] },
   { key: "occasion" as const, title: "What's the occasion?", subtitle: "Celebrate a happy moment or remember a cherished friend.", options: [
     { value: "birthday", label: "Birthday", icon: Cake }, { value: "holiday", label: "Christmas & holidays", icon: TreePine },
-    { value: "memorial", label: "In loving memory", icon: Heart }, { value: "just-because", label: "Just because", icon: Sparkles },
+    { value: "memorial", label: "Memorial and Keepsakes", icon: Heart }, { value: "just-because", label: "Treat Myself", icon: Sparkles },
   ] },
   { key: "budget" as const, title: "What's your budget?", subtitle: "A thoughtful gift, at a price that feels right.", options: [
     { value: "under-25", label: "Under $25", icon: ShoppingBag }, { value: "25-50", label: "$25 – under $50", icon: Gift },
