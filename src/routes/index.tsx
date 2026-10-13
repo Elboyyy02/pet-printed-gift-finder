@@ -82,7 +82,7 @@ function Index() {
           </div>
           <h2 className="text-3xl font-extrabold sm:text-4xl">{currentStep.title}</h2>
           <p className="mt-3 text-muted-foreground">{currentStep.subtitle}</p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">{currentStep.options.map((opt) => {
+          <div className="mt-8 grid auto-rows-fr gap-3 sm:grid-cols-2">{currentStep.options.map((opt) => {
             const Icon = opt.icon; const selected = answers[currentStep.key] === opt.value;
             return <Button key={opt.value} variant="outline" aria-pressed={selected} onClick={() => { setAnswers((a) => ({ ...a, [currentStep.key]: opt.value })); setStep(step + 1); }} className={`h-auto min-h-24 justify-start gap-4 whitespace-normal rounded-lg border-2 bg-card p-5 text-left ${selected ? "border-primary" : "border-border"}`}>
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-accent text-secondary"><Icon className="!h-6 !w-6" /></span><span><span className="block text-base font-semibold">{opt.label}</span>{opt.desc && <span className="mt-1 block text-sm font-normal leading-snug text-muted-foreground">{opt.desc}</span>}</span>
