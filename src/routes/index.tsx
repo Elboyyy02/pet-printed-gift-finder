@@ -47,6 +47,10 @@ function Index() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const results = useMemo(() => findMatches(answers), [answers]);
+  const featured = useMemo(() => {
+    const picked = new Set(results.map((r) => r.product.id));
+    return PRODUCTS.filter((p) => !picked.has(p.id)).slice(0, 5);
+  }, [results]);
   const currentStep = step >= 1 && step <= STEPS.length ? STEPS[step - 1] : undefined;
   const restart = () => { setAnswers({}); setStep(0); };
   return (
