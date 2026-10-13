@@ -50,13 +50,31 @@ describe("store gift matching", () => {
     }
     expect(extra.filter(({ product }) => product.categories.includes("home")).length).toBeGreaterThan(0);
   });
-  it("stays inside pet, budget and memorial rules when the chosen type runs out", () => {
+  it("still offers five suggestions when no gift fits every answer", () => {
+    const answers = { pet: "other", occasion: "birthday", productType: "wearables", budget: "50-plus" };
+    expect(findMatches(answers)).toEqual([]);
+    const extra = findSuggestions(answers, [], 5);
+    expect(extra).toHaveLength(5);
+    for (const { product } of extra) {
+      expect(product.pets).toContain("other");
+      expect(product.occasions).not.toContain("memorial");
+    }
+    expect(new Set(extra.map((m) => m.product.id)).size).toBe(5);
+  });
+  it("keeps pet and memorial rules firm when widening the budget", () => {
     const extra = findSuggestions({ pet: "cat", occasion: "memorial", productType: "wearables", budget: "under-25" }, [], 5);
-    expect(extra.length).toBeGreaterThan(0);
+    expect(extra).toHaveLength(5);
     for (const { product, price } of extra) {
       expect(product.pets).toContain("cat");
       expect(product.occasions).toContain("memorial");
-      expect(price).toBeLessThan(25);
+      expect(price).toBeGreaterThan(0);
     }
+  });
+  it("never repeats a suggested gift", () => {
+    const answers = { pet: "dog", occasion: "holiday", productType: "fun", budget: "any" };
+    const shown = findMatches(answers).map((m) => m.product.id);
+    const extra = findSuggestions(answers, shown, 5);
+    expect(extra).toHaveLength(5);
+    expect(shown.filter((id) => extra.some((m) => m.product.id === id))).toEqual([]);
   });
 });

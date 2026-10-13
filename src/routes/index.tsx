@@ -91,7 +91,7 @@ function Index() {
           <div className="mx-auto max-w-2xl text-center">
             <span className="inline-flex items-center gap-2 text-sm font-semibold text-secondary"><Gift className="h-4 w-4" />Your Pet Printed picks</span>
             <h2 className="mt-4 text-3xl font-extrabold sm:text-4xl">{results.length ? "Something made just for them" : "Let's find another match"}</h2>
-            <p className="mt-3 text-muted-foreground">{results.length ? "Personalized gifts for their pet, their moment, and your budget." : "No gifts in this selection fit every answer. Try another budget or browse the full store."}</p>
+            <p className="mt-3 text-muted-foreground">{results.length ? "Personalized gifts for their pet, their moment, and your budget." : "No gift fits every answer exactly — try another budget, or explore the picks below."}</p>
           </div>
           <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{results.map(({ product: p, price, variant }, i) => <article key={p.id} className="flex flex-col overflow-hidden rounded-lg border border-border bg-card">
             <div className="relative"><a href={p.url} target="_blank" rel="noopener noreferrer"><img src={p.image} alt={p.name} width={800} height={800} className="aspect-square w-full object-cover" /></a>{i === 0 && <span className="absolute left-2 top-2 rounded bg-secondary px-2 py-0.5 text-[10px] font-bold text-secondary-foreground">Best match</span>}</div>
@@ -107,7 +107,7 @@ function Index() {
             <div className="text-center">
               <span className="inline-flex items-center gap-2 text-sm font-semibold text-secondary"><Sparkles className="h-4 w-4" />More from the store</span>
               <h3 className="mt-3 text-2xl font-extrabold sm:text-3xl">Featured suggestions</h3>
-              <p className="mt-2 text-sm text-muted-foreground">More personalized Pet Printed gifts that fit your answers.</p>
+              <p className="mt-2 text-sm text-muted-foreground">More personalized Pet Printed gifts to explore.</p>
             </div>
             <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{featured.map(({ product: p, price }) => <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card text-left">
               <img src={p.image} alt={p.name} width={800} height={800} className="aspect-square w-full object-cover transition-opacity group-hover:opacity-90" />

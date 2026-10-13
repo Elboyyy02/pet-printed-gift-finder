@@ -28,35 +28,48 @@ const scoreProduct = (product: CatalogProduct, answers: Answers) =>
   + (answers.occasion && product.occasions.includes(answers.occasion) ? 3 : 0)
   + (answers.occasion === "holiday" && isHolidayOnly(product) ? 2 : 0);
 
-const matchOf = (product: CatalogProduct, answers: Answers): GiftMatch[] => {
-  const variant = [...product.variants].filter((v) => matchesBudget(v.price, answers.budget)).sort((a, b) => a.price - b.price)[0];
+const variantFor = (product: CatalogProduct, budget?: string) =>
+  [...product.variants].filter((v) => !budget || matchesBudget(v.price, budget)).sort((a, b) => a.price - b.price)[0];
+
+const matchOf = (product: CatalogProduct, answers: Answers, budget?: string): GiftMatch[] => {
+  const variant = variantFor(product, budget);
   if (!variant) return [];
   return [{ product, price: variant.price, variant: variant.label, score: scoreProduct(product, answers) }];
 };
 
 const byScore = (a: GiftMatch, b: GiftMatch) => b.score - a.score || a.price - b.price;
 
-const strictMatches = (answers: Answers, excludeIds: string[]) => {
+const collect = (answers: Answers, excludeIds: string[], opts: { type: boolean; budget: boolean }): GiftMatch[] => {
   const excluded = new Set(excludeIds);
+  const budget = opts.budget ? answers.budget : undefined;
   return PRODUCTS.flatMap((product) => {
     if (excluded.has(product.id) || !petAllowed(product, answers) || !occasionAllowed(product, answers)) return [];
-    if (answers.productType && !product.categories.includes(answers.productType)) return [];
-    return matchOf(product, answers);
+    if (opts.type && answers.productType && !product.categories.includes(answers.productType)) return [];
+    return matchOf(product, answers, budget);
   }).sort(byScore);
 };
 
+/** Gifts that fit every answer, ranked best first. */
 export function findMatches(answers: Answers): GiftMatch[] {
-  return strictMatches(answers, []).slice(0, 5);
+  return collect(answers, [], { type: true, budget: true }).slice(0, 5);
 }
 
-/** Extra gifts that fit the same answers. Falls back to the shopper's pet, budget and occasion rules when the chosen product type runs out. */
+/** Five more gifts. The pet and occasion rules stay firm; product type and budget widen as needed so the shopper always sees choices. */
 export function findSuggestions(answers: Answers, excludeIds: string[], count = 5): GiftMatch[] {
-  const strict = strictMatches(answers, excludeIds);
-  if (strict.length >= count) return strict.slice(0, count);
-  const taken = new Set([...excludeIds, ...strict.map((m) => m.product.id)]);
-  const relaxed = PRODUCTS.flatMap((product) => {
-    if (taken.has(product.id) || !petAllowed(product, answers) || !occasionAllowed(product, answers)) return [];
-    return matchOf(product, answers);
-  }).sort(byScore);
-  return [...strict, ...relaxed].slice(0, count);
+  const out: GiftMatch[] = [];
+  const seen = new Set(excludeIds);
+  for (const tier of [
+    collect(answers, excludeIds, { type: true, budget: true }),
+    collect(answers, excludeIds, { type: false, budget: true }),
+    collect(answers, excludeIds, { type: false, budget: false }),
+  ]) {
+    for (const match of tier) {
+      if (out.length >= count) break;
+      if (seen.has(match.product.id)) continue;
+      seen.add(match.product.id);
+      out.push(match);
+    }
+    if (out.length >= count) break;
+  }
+  return out;
 }
