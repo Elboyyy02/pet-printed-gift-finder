@@ -14,8 +14,11 @@ The goal is to make gift discovery easier, more engaging, and more personalized 
 
 ## How It Works
 
-Answer the questions — Share who the gift is for, the occasion, and relevant preferences.
-Refine the preferences — Select the product type and other details that help narrow the options.
-Explore recommendations — Review suggested products that align with the answers provided.
-Discover the right gift — Check product details, pricing, and links to explore or purchase the item.
+1. Answer the questions — Share who the gift is for, the occasion, and relevant preferences.
+
+2. Refine the preferences — Select the product type and other details that help narrow the options.
+
+3. Explore recommendations — Review suggested products that align with the answers provided.
+
+4. Discover the right gift — Check product details, pricing, and links to explore or purchase the item.
 
