@@ -36,7 +36,7 @@ const STEPS: Step[] = [
     { value: "fun", label: "Fun & Unique Gifts", desc: "Puzzles and a mix of other gifts", icon: Puzzle },
   ] },
   { key: "budget", title: "What's your budget?", subtitle: "A thoughtful gift, at a price that feels right.", options: [
-    { value: "under-25", label: "Under $25", icon: ShoppingBag }, { value: "25-50", label: "$25 – under $50", icon: Gift },
+    { value: "under-25", label: "Under $25", icon: ShoppingBag }, { value: "25-50", label: "$25-50", icon: Gift },
     { value: "50-plus", label: "$50+", icon: Star }, { value: "any", label: "Any budget", icon: Sparkles },
   ] },
   { key: "style", title: "What vibe fits them best?", subtitle: "Pick the personality that feels most like them.", options: [
