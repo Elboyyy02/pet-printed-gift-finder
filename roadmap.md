@@ -11,6 +11,6 @@
 - [x] Show 5 matched gifts and 5 more suggestions that fit the same answers.
 - [x] Shrink the gift cards so five fit in a row.
 - [x] Always show five suggestions, widening past a single product type or budget when the store has more to offer.
-- [ ] Replace question 3 with ten specific product choices.
-- [ ] Offer five real products with an honest preference-based reason for each suggestion.
-- [ ] Verify category matching, alternatives, and the complete quiz.
+- [x] Replace question 3 with ten specific product choices.
+- [x] Offer five real products with an honest preference-based reason for each suggestion.
+- [x] Verify category matching, alternatives, and the complete quiz.
