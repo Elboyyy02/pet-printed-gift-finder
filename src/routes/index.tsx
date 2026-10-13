@@ -93,7 +93,7 @@ function Index() {
             <h2 className="mt-4 text-3xl font-extrabold sm:text-4xl">{results.length ? "Something made just for them" : "Let's find another match"}</h2>
             <p className="mt-3 text-muted-foreground">{results.length ? "Personalized gifts for their pet, their moment, and your budget." : "No gifts in this selection fit every answer. Try another budget or browse the full store."}</p>
           </div>
-          <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-5">{results.map(({ product: p, price, variant }, i) => <article key={p.id} className="flex flex-col overflow-hidden rounded-lg border border-border bg-card">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{results.map(({ product: p, price, variant }, i) => <article key={p.id} className="flex flex-col overflow-hidden rounded-lg border border-border bg-card">
             <div className="relative"><a href={p.url} target="_blank" rel="noopener noreferrer"><img src={p.image} alt={p.name} width={800} height={800} className="aspect-square w-full object-cover" /></a>{i === 0 && <span className="absolute left-2 top-2 rounded bg-secondary px-2 py-0.5 text-[10px] font-bold text-secondary-foreground">Best match</span>}</div>
             <div className="flex flex-1 flex-col p-3">
               <h3 className="min-h-10 text-sm font-bold leading-snug">{p.name.replace("Personalized ", "")}</h3>

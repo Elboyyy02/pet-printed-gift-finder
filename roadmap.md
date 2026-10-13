@@ -8,3 +8,5 @@
 - [x] Remove the fifth question so the finder ends after budget.
 - [x] Show 5 matched gifts plus 5 featured suggestions from the catalog.
 - [x] Make the answer choices as compact as the landing-page product cards.
+- [x] Show 5 matched gifts and 5 more suggestions that fit the same answers.
+- [x] Shrink the gift cards so five fit in a row.
