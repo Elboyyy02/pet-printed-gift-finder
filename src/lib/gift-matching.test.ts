@@ -32,7 +32,7 @@ describe("store gift matching", () => {
     }
   });
   it("keeps unsupported combinations empty rather than ignoring the budget", () => {
-    expect(findMatches({ pet: "other", occasion: "birthday", budget: "50-plus" })).toEqual([]);
+    expect(findMatches({ pet: "other", occasion: "memorial", productType: "apparels", budget: "50-plus" })).toEqual([]);
   });
   it("shows five matched gifts for a broad selection", () => {
     expect(findMatches({ pet: "dog", occasion: "just-because", productType: "home", budget: "any" })).toHaveLength(5);
@@ -51,7 +51,7 @@ describe("store gift matching", () => {
     expect(extra.filter(({ product }) => product.categories.includes("home")).length).toBeGreaterThan(0);
   });
   it("still offers five suggestions when no gift fits every answer", () => {
-    const answers = { pet: "other", occasion: "birthday", productType: "wearables", budget: "50-plus" };
+    const answers = { pet: "other", occasion: "birthday", productType: "apparels", budget: "50-plus" };
     expect(findMatches(answers)).toEqual([]);
     const extra = findSuggestions(answers, [], 5);
     expect(extra).toHaveLength(5);
@@ -76,5 +76,41 @@ describe("store gift matching", () => {
     const extra = findSuggestions(answers, shown, 5);
     expect(extra).toHaveLength(5);
     expect(shown.filter((id) => extra.some((m) => m.product.id === id))).toEqual([]);
+  });
+  it.each(["apparels", "accessories", "drinkware", "doormats", "home-decor", "memorials", "keepsakes", "wall-arts", "anything"])("offers five category-specific gifts for %s", (productType) => {
+    const answers = { pet: "cat", occasion: productType === "memorials" ? "memorial" : "birthday", productType, budget: "any" };
+    const matches = findMatches(answers);
+    expect(matches).toHaveLength(5);
+    for (const match of matches) {
+      if (productType !== "anything") expect(match.product.categories).toContain(productType);
+      expect(match.reason).toContain("cat lover");
+      expect(match.exact).toBe(true);
+    }
+  });
+  it("shows real puzzles first and honestly explains the three alternatives", () => {
+    const answers = { pet: "cat", occasion: "birthday", productType: "puzzles", budget: "any" };
+    const matches = findMatches(answers);
+    expect(matches).toHaveLength(2);
+    const extra = findSuggestions(answers, matches.map((m) => m.product.id), 3);
+    expect(extra).toHaveLength(3);
+    for (const match of extra) {
+      expect(match.exact).toBe(false);
+      expect(match.reason).toContain("alternative to puzzles");
+      expect(match.product.pets).toContain("cat");
+    }
+  });
+  it("prefers the selected type outside the budget over a different type", () => {
+    const answers = { pet: "cat", occasion: "birthday", productType: "doormats", budget: "under-25" };
+    expect(findMatches(answers)).toEqual([]);
+    const extra = findSuggestions(answers, [], 5);
+    expect(extra).toHaveLength(5);
+    for (const match of extra) {
+      expect(match.product.categories).toContain("doormats");
+      expect(match.reason).toContain("outside your selected budget");
+    }
+  });
+  it("never relaxes pet eligibility to fill a suggestion row", () => {
+    const answers = { pet: "other", occasion: "birthday", productType: "puzzles", budget: "any" };
+    for (const match of findSuggestions(answers, [], 5)) expect(match.product.pets).toContain("other");
   });
 });

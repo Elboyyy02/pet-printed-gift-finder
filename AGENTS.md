@@ -12,3 +12,4 @@
 ## Gift finder
 - Keep the official catalog as a curated, dated client-safe snapshot in `src/lib/gift-catalog.ts`, with store product URLs and CDN asset pointers; this avoids inventing products or requiring a store API at runtime.
 - Keep recommendation rules in `src/lib/gift-matching.ts` and test strict pet, memorial, and real variant-price budget eligibility; unmatched combinations must not silently violate shoppers' answers.
+- Assign specific product categories from verified store product formats; prefer that category before widening budget, preserve pet and occasion eligibility, and explain every relaxed preference on each suggestion.
