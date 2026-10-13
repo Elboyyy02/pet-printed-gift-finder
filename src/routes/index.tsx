@@ -96,11 +96,11 @@ function Index() {
           <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{results.map(({ product: p, price, variant }, i) => <article key={p.id} className="flex flex-col overflow-hidden rounded-lg border border-border bg-card">
             <div className="relative"><a href={p.url} target="_blank" rel="noopener noreferrer"><img src={p.image} alt={p.name} width={800} height={800} className="aspect-square w-full object-cover" /></a>{i === 0 && <span className="absolute left-2 top-2 rounded bg-secondary px-2 py-0.5 text-[10px] font-bold text-secondary-foreground">Best match</span>}</div>
             <div className="flex flex-1 flex-col p-3">
-              <h3 className="min-h-10 text-sm font-bold leading-snug">{p.name.replace("Personalized ", "")}</h3>
+              <h3 className="line-clamp-2 min-h-10 text-sm font-bold leading-snug">{p.name.replace("Personalized ", "")}</h3>
               <p className="mt-2 text-sm font-bold text-foreground">{money(price)} <span className="text-[10px] font-normal text-muted-foreground">USD</span></p>
               <p className="mt-1 line-clamp-2 text-[11px] leading-snug text-muted-foreground">{variant}</p>
-              <p className="mt-2 text-xs text-secondary">{answers.occasion === "memorial" ? "A keepsake for a cherished friend" : answers.style && p.styles.includes(answers.style) ? { funny: "For their playful side", elegant: "A thoughtful, artistic touch", cozy: "A little everyday comfort" }[answers.style] : "Personalized with their pet"}</p>
-              <Button asChild size="sm" className="mt-3 w-full px-2 text-xs font-semibold"><a href={p.url} target="_blank" rel="noopener noreferrer">Personalize this gift <ExternalLink /></a></Button>
+              <p className="mb-3 mt-2 text-xs text-secondary">{answers.occasion === "memorial" ? "A keepsake for a cherished friend" : answers.style && p.styles.includes(answers.style) ? { funny: "For their playful side", elegant: "A thoughtful, artistic touch", cozy: "A little everyday comfort" }[answers.style] : "Personalized with their pet"}</p>
+              <Button asChild size="sm" className="mt-auto w-full px-2 text-xs font-semibold"><a href={p.url} target="_blank" rel="noopener noreferrer">Personalize this gift <ExternalLink /></a></Button>
             </div>
           </article>)}</div>
           {featured.length > 0 && <div className="mt-14">
@@ -112,7 +112,7 @@ function Index() {
             <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{featured.map(({ product: p, price }) => <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card text-left">
               <img src={p.image} alt={p.name} width={800} height={800} className="aspect-square w-full object-cover transition-opacity group-hover:opacity-90" />
               <div className="flex-1 p-3">
-                <p className="min-h-10 text-xs font-semibold leading-snug">{p.name.replace("Personalized ", "")}</p>
+                <p className="line-clamp-2 min-h-10 text-xs font-semibold leading-snug">{p.name.replace("Personalized ", "")}</p>
                 <p className="mt-1.5 text-xs text-muted-foreground">{p.priceVaries ? "From " : ""}{money(price)}</p>
               </div>
             </a>)}</div>
