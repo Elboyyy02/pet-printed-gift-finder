@@ -1,6 +1,6 @@
 import { PRODUCTS, type CatalogProduct } from "./gift-catalog";
 
-export type Answers = { pet?: string; occasion?: string; budget?: string; style?: string };
+export type Answers = { pet?: string; occasion?: string; productType?: string; budget?: string; style?: string };
 export type GiftMatch = { product: CatalogProduct; price: number; variant: string; score: number };
 
 export function matchesBudget(price: number, budget?: string) {
@@ -13,6 +13,7 @@ export function matchesBudget(price: number, budget?: string) {
 export function findMatches(answers: Answers): GiftMatch[] {
   return PRODUCTS.flatMap((product) => {
     if (answers.pet && answers.pet !== "parent" && !product.pets.includes(answers.pet)) return [];
+    if (answers.productType && !product.categories.includes(answers.productType)) return [];
     if (answers.occasion === "memorial" && !product.occasions.includes("memorial")) return [];
     if (answers.occasion !== "memorial" && product.occasions.includes("memorial")) return [];
     if (answers.occasion !== "holiday" && product.occasions.length === 1 && product.occasions[0] === "holiday") return [];
