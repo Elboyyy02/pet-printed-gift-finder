@@ -12,18 +12,10 @@ Instead of browsing through a large catalog, users answer a series of simple, co
 
 The goal is to make gift discovery easier, more engaging, and more personalized while helping customers move from inspiration to product selection.
 
+## How It Works
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+Answer the questions — Share who the gift is for, the occasion, and relevant preferences.
+Refine the preferences — Select the product type and other details that help narrow the options.
+Explore recommendations — Review suggested products that align with the answers provided.
+Discover the right gift — Check product details, pricing, and links to explore or purchase the item.
 
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
