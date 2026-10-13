@@ -39,11 +39,11 @@ const matchOf = (product: CatalogProduct, answers: Answers, budget?: string): Gi
 
 const byScore = (a: GiftMatch, b: GiftMatch) => b.score - a.score || a.price - b.price;
 
-const collect = (answers: Answers, excludeIds: string[], opts: { type: boolean; budget: boolean }): GiftMatch[] => {
+const collect = (answers: Answers, excludeIds: string[], opts: { type: boolean; budget: boolean; pet: boolean }): GiftMatch[] => {
   const excluded = new Set(excludeIds);
   const budget = opts.budget ? answers.budget : undefined;
   return PRODUCTS.flatMap((product) => {
-    if (excluded.has(product.id) || !petAllowed(product, answers) || !occasionAllowed(product, answers)) return [];
+    if (excluded.has(product.id) || (opts.pet && !petAllowed(product, answers)) || !occasionAllowed(product, answers)) return [];
     if (opts.type && answers.productType && !product.categories.includes(answers.productType)) return [];
     return matchOf(product, answers, budget);
   }).sort(byScore);
@@ -51,17 +51,18 @@ const collect = (answers: Answers, excludeIds: string[], opts: { type: boolean; 
 
 /** Gifts that fit every answer, ranked best first. */
 export function findMatches(answers: Answers): GiftMatch[] {
-  return collect(answers, [], { type: true, budget: true }).slice(0, 5);
+  return collect(answers, [], { type: true, budget: true, pet: true }).slice(0, 5);
 }
 
-/** Five more gifts. The pet and occasion rules stay firm; product type and budget widen as needed so the shopper always sees choices. */
+/** Five more gifts. The memorial rule stays firm; product type, budget and finally pet widen as needed so the shopper always sees five choices. */
 export function findSuggestions(answers: Answers, excludeIds: string[], count = 5): GiftMatch[] {
   const out: GiftMatch[] = [];
   const seen = new Set(excludeIds);
   for (const tier of [
-    collect(answers, excludeIds, { type: true, budget: true }),
-    collect(answers, excludeIds, { type: false, budget: true }),
-    collect(answers, excludeIds, { type: false, budget: false }),
+    collect(answers, excludeIds, { type: true, budget: true, pet: true }),
+    collect(answers, excludeIds, { type: false, budget: true, pet: true }),
+    collect(answers, excludeIds, { type: false, budget: false, pet: true }),
+    collect(answers, excludeIds, { type: false, budget: false, pet: false }),
   ]) {
     for (const match of tier) {
       if (out.length >= count) break;
