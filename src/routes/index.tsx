@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Cake, Cat, Dog, Gift, Heart, Rabbit, RotateCcw, ShoppingBag, Sparkles, Star, TreePine, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight, Cake, Cat, Dog, Frame, Gift, Heart, Home, Puzzle, Rabbit, RotateCcw, ShoppingBag, Sparkles, Shirt, Star, TreePine, ExternalLink, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/store/logo.svg.asset.json";
 import { PRODUCTS, CATALOG_CHECKED } from "@/lib/gift-catalog";
@@ -17,20 +17,29 @@ export const Route = createFileRoute("/")({
   ] }), component: Index,
 });
 
-const STEPS = [
-  { key: "pet" as const, title: "Who are you shopping for?", subtitle: "A little something for their favorite pet lover.", options: [
+type Option = { value: string; label: string; icon: LucideIcon; desc?: string };
+type Step = { key: keyof Answers; title: string; subtitle: string; options: Option[] };
+
+const STEPS: Step[] = [
+  { key: "pet", title: "Who are you shopping for?", subtitle: "A little something for their favorite pet lover.", options: [
     { value: "dog", label: "A dog lover", icon: Dog }, { value: "cat", label: "A cat lover", icon: Cat },
     { value: "other", label: "Another pet lover", icon: Rabbit }, { value: "parent", label: "Any pet parent", icon: Heart },
   ] },
-  { key: "occasion" as const, title: "What's the occasion?", subtitle: "Celebrate a happy moment or remember a cherished friend.", options: [
+  { key: "occasion", title: "What's the occasion?", subtitle: "Celebrate a happy moment or remember a cherished friend.", options: [
     { value: "birthday", label: "Birthday", icon: Cake }, { value: "holiday", label: "Christmas & holidays", icon: TreePine },
     { value: "memorial", label: "Memorial and Keepsakes", icon: Heart }, { value: "just-because", label: "Treat Myself", icon: Sparkles },
   ] },
-  { key: "budget" as const, title: "What's your budget?", subtitle: "A thoughtful gift, at a price that feels right.", options: [
+  { key: "productType", title: "What type of product are you looking for?", subtitle: "Pick the kind of gift that suits them best.", options: [
+    { value: "wearables", label: "Wearables & Accessories", desc: "Apparel and accessories", icon: Shirt },
+    { value: "home", label: "Home & Drinkware", desc: "Drinkware, doormats, and home décor", icon: Home },
+    { value: "memorial", label: "Memorial & Personalized Gifts", desc: "Memorials, keepsakes, and wall art", icon: Frame },
+    { value: "fun", label: "Fun & Unique Gifts", desc: "Puzzles and a mix of other gifts", icon: Puzzle },
+  ] },
+  { key: "budget", title: "What's your budget?", subtitle: "A thoughtful gift, at a price that feels right.", options: [
     { value: "under-25", label: "Under $25", icon: ShoppingBag }, { value: "25-50", label: "$25 – under $50", icon: Gift },
     { value: "50-plus", label: "$50+", icon: Star }, { value: "any", label: "Any budget", icon: Sparkles },
   ] },
-  { key: "style" as const, title: "What vibe fits them best?", subtitle: "Pick the personality that feels most like them.", options: [
+  { key: "style", title: "What vibe fits them best?", subtitle: "Pick the personality that feels most like them.", options: [
     { value: "funny", label: "Fun & playful", icon: Sparkles }, { value: "elegant", label: "Elegant & artistic", icon: Star },
     { value: "cozy", label: "Warm & cozy", icon: Heart },
   ] },
@@ -69,19 +78,19 @@ function Index() {
         {currentStep && <div className="mx-auto max-w-2xl">
           <div className="mb-8">
             <div className="mb-3 flex justify-between text-sm font-medium text-muted-foreground"><span>Question {step} of {STEPS.length}</span><span>{Math.round(step / STEPS.length * 100)}%</span></div>
-            <div className="grid grid-cols-4 gap-2" aria-label={`Question ${step} of ${STEPS.length}`}>{STEPS.map((s, i) => <div key={s.key} className={`h-1.5 rounded-full ${i < step ? "bg-primary" : "bg-muted"}`} />)}</div>
+            <div className="flex gap-2" aria-label={`Question ${step} of ${STEPS.length}`}>{STEPS.map((s, i) => <div key={s.key} className={`h-1.5 flex-1 rounded-full ${i < step ? "bg-primary" : "bg-muted"}`} />)}</div>
           </div>
           <h2 className="text-3xl font-extrabold sm:text-4xl">{currentStep.title}</h2>
           <p className="mt-3 text-muted-foreground">{currentStep.subtitle}</p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">{currentStep.options.map((opt) => {
+          <div className="mt-8 grid auto-rows-fr gap-3 sm:grid-cols-2">{currentStep.options.map((opt) => {
             const Icon = opt.icon; const selected = answers[currentStep.key] === opt.value;
             return <Button key={opt.value} variant="outline" aria-pressed={selected} onClick={() => { setAnswers((a) => ({ ...a, [currentStep.key]: opt.value })); setStep(step + 1); }} className={`h-auto min-h-24 justify-start gap-4 whitespace-normal rounded-lg border-2 bg-card p-5 text-left ${selected ? "border-primary" : "border-border"}`}>
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-accent text-secondary"><Icon className="!h-6 !w-6" /></span><span className="text-base font-semibold">{opt.label}</span>
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-accent text-secondary"><Icon className="!h-6 !w-6" /></span><span><span className="block text-base font-semibold">{opt.label}</span>{opt.desc && <span className="mt-1 block text-sm font-normal leading-snug text-muted-foreground">{opt.desc}</span>}</span>
             </Button>;
           })}</div>
           <Button variant="ghost" onClick={() => setStep(Math.max(0, step - 1))} className="mt-8 text-muted-foreground"><ArrowLeft />Back</Button>
         </div>}
-        {step === 5 && <div>
+        {step === STEPS.length + 1 && <div>
           <div className="mx-auto max-w-2xl text-center">
             <span className="inline-flex items-center gap-2 text-sm font-semibold text-secondary"><Gift className="h-4 w-4" />Your Pet Printed picks</span>
             <h2 className="mt-4 text-3xl font-extrabold sm:text-4xl">{results.length ? "Something made just for them" : "Let's find another match"}</h2>
@@ -98,7 +107,7 @@ function Index() {
             </div>
           </article>)}</div>
           <p className="mt-6 text-center text-xs text-muted-foreground">Catalog checked {CATALOG_CHECKED}. Prices and availability may change; final options and pricing are shown in the store.</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3"><Button variant="outline" onClick={() => setStep(3)}><ArrowLeft />Change budget</Button><Button variant="ghost" onClick={restart}><RotateCcw />Start over</Button><Button asChild variant="ghost"><a href="https://pet-printed.com/collections/all" target="_blank" rel="noopener noreferrer">Browse all gifts <ExternalLink /></a></Button></div>
+          <div className="mt-8 flex flex-wrap justify-center gap-3"><Button variant="outline" onClick={() => setStep(4)}><ArrowLeft />Change budget</Button><Button variant="ghost" onClick={restart}><RotateCcw />Start over</Button><Button asChild variant="ghost"><a href="https://pet-printed.com/collections/all" target="_blank" rel="noopener noreferrer">Browse all gifts <ExternalLink /></a></Button></div>
         </div>}
       </main>
       <footer className="border-t border-border bg-card"><div className="mx-auto flex max-w-5xl flex-col items-center gap-3 px-6 py-8 text-center text-sm text-muted-foreground"><a href="https://pet-printed.com/" aria-label="Pet Printed home"><img src={logo.url} alt="Pet Printed" width={127} height={30} className="h-[30px] w-[127px] object-contain" /></a><p>Unique gifts for all pet lovers.</p></div></footer>
