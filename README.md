@@ -1,8 +1,6 @@
 # Pet Printed Gift Finder
 
-to build an Gift Finder Prototype.
-
-This project was built with [Lovable](https://lovable.dev).
+A guided gift discovery experience designed to help customers find personalized, thoughtful gifts based on their recipient, interests, preferences, and occasion.
 
 **Live app**: https://pet-printed-gift-finder.lovable.app
 
