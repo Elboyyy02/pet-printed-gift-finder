@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, Cake, Cat, Dog, Frame, Gift, Heart, Home, Puzzle
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/store/logo.svg.asset.json";
 import { PRODUCTS, CATALOG_CHECKED } from "@/lib/gift-catalog";
-import { findMatches, type Answers } from "@/lib/gift-matching";
+import { findMatches, findSuggestions, type Answers } from "@/lib/gift-matching";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -47,10 +47,7 @@ function Index() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const results = useMemo(() => findMatches(answers), [answers]);
-  const featured = useMemo(() => {
-    const picked = new Set(results.map((r) => r.product.id));
-    return PRODUCTS.filter((p) => !picked.has(p.id)).slice(0, 5);
-  }, [results]);
+  const featured = useMemo(() => findSuggestions(answers, results.map((r) => r.product.id), 5), [answers, results]);
   const currentStep = step >= 1 && step <= STEPS.length ? STEPS[step - 1] : undefined;
   const restart = () => { setAnswers({}); setStep(0); };
   return (
@@ -96,14 +93,14 @@ function Index() {
             <h2 className="mt-4 text-3xl font-extrabold sm:text-4xl">{results.length ? "Something made just for them" : "Let's find another match"}</h2>
             <p className="mt-3 text-muted-foreground">{results.length ? "Personalized gifts for their pet, their moment, and your budget." : "No gifts in this selection fit every answer. Try another budget or browse the full store."}</p>
           </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{results.map(({ product: p, price, variant }, i) => <article key={p.id} className="overflow-hidden rounded-lg border border-border bg-card">
-            <div className="relative"><a href={p.url} target="_blank" rel="noopener noreferrer"><img src={p.image} alt={p.name} width={800} height={800} className="aspect-square w-full object-cover" /></a>{i === 0 && <span className="absolute left-3 top-3 rounded-md bg-secondary px-3 py-1 text-xs font-bold text-secondary-foreground">Best match</span>}</div>
-            <div className="flex flex-col p-5">
-              <h3 className="min-h-14 text-lg font-bold leading-snug">{p.name}</h3>
-              <p className="mt-3 text-lg font-bold text-foreground">{money(price)} <span className="text-xs font-normal text-muted-foreground">USD</span></p>
-              <p className="mt-1 min-h-10 text-xs leading-relaxed text-muted-foreground">{variant}</p>
-              <p className="mt-3 text-sm text-secondary">{answers.occasion === "memorial" ? "A keepsake for a cherished friend" : answers.style && p.styles.includes(answers.style) ? { funny: "For their playful side", elegant: "A thoughtful, artistic touch", cozy: "A little everyday comfort" }[answers.style] : "Personalized with their pet"}</p>
-              <Button asChild className="mt-5 h-11 w-full font-semibold"><a href={p.url} target="_blank" rel="noopener noreferrer">Personalize this gift <ExternalLink /></a></Button>
+          <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-5">{results.map(({ product: p, price, variant }, i) => <article key={p.id} className="flex flex-col overflow-hidden rounded-lg border border-border bg-card">
+            <div className="relative"><a href={p.url} target="_blank" rel="noopener noreferrer"><img src={p.image} alt={p.name} width={800} height={800} className="aspect-square w-full object-cover" /></a>{i === 0 && <span className="absolute left-2 top-2 rounded bg-secondary px-2 py-0.5 text-[10px] font-bold text-secondary-foreground">Best match</span>}</div>
+            <div className="flex flex-1 flex-col p-3">
+              <h3 className="min-h-10 text-sm font-bold leading-snug">{p.name.replace("Personalized ", "")}</h3>
+              <p className="mt-2 text-sm font-bold text-foreground">{money(price)} <span className="text-[10px] font-normal text-muted-foreground">USD</span></p>
+              <p className="mt-1 line-clamp-2 text-[11px] leading-snug text-muted-foreground">{variant}</p>
+              <p className="mt-2 text-xs text-secondary">{answers.occasion === "memorial" ? "A keepsake for a cherished friend" : answers.style && p.styles.includes(answers.style) ? { funny: "For their playful side", elegant: "A thoughtful, artistic touch", cozy: "A little everyday comfort" }[answers.style] : "Personalized with their pet"}</p>
+              <Button asChild size="sm" className="mt-3 w-full px-2 text-xs font-semibold"><a href={p.url} target="_blank" rel="noopener noreferrer">Personalize this gift <ExternalLink /></a></Button>
             </div>
           </article>)}</div>
           {featured.length > 0 && <div className="mt-14">
@@ -112,11 +109,11 @@ function Index() {
               <h3 className="mt-3 text-2xl font-extrabold sm:text-3xl">Featured suggestions</h3>
               <p className="mt-2 text-sm text-muted-foreground">Other personalized Pet Printed gifts worth a look.</p>
             </div>
-            <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">{featured.map((p) => <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" className="group overflow-hidden rounded-lg border border-border bg-card text-left">
+            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{featured.map((p) => <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card text-left">
               <img src={p.image} alt={p.name} width={800} height={800} className="aspect-square w-full object-cover transition-opacity group-hover:opacity-90" />
-              <div className="p-4">
-                <p className="min-h-12 text-sm font-semibold leading-snug">{p.name}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{p.priceVaries ? "From " : ""}{money(Math.min(...p.variants.map((v) => v.price)))}</p>
+              <div className="flex-1 p-3">
+                <p className="min-h-10 text-xs font-semibold leading-snug">{p.name.replace("Personalized ", "")}</p>
+                <p className="mt-1.5 text-xs text-muted-foreground">{p.priceVaries ? "From " : ""}{money(Math.min(...p.variants.map((v) => v.price)))}</p>
               </div>
             </a>)}</div>
           </div>}
