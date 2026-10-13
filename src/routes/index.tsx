@@ -82,10 +82,10 @@ function Index() {
           </div>
           <h2 className="text-3xl font-extrabold sm:text-4xl">{currentStep.title}</h2>
           <p className="mt-3 text-muted-foreground">{currentStep.subtitle}</p>
-          <div className="mt-8 grid auto-rows-fr gap-3 sm:grid-cols-2">{currentStep.options.map((opt) => {
+          <div className="mt-6 grid auto-rows-fr gap-3 sm:grid-cols-2">{currentStep.options.map((opt) => {
             const Icon = opt.icon; const selected = answers[currentStep.key] === opt.value;
-            return <Button key={opt.value} variant="outline" aria-pressed={selected} onClick={() => { setAnswers((a) => ({ ...a, [currentStep.key]: opt.value })); setStep(step + 1); }} className={`h-auto min-h-24 justify-start gap-4 whitespace-normal rounded-lg border-2 bg-card p-5 text-left ${selected ? "border-primary" : "border-border"}`}>
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-accent text-secondary"><Icon className="!h-6 !w-6" /></span><span><span className="block text-base font-semibold">{opt.label}</span>{opt.desc && <span className="mt-1 block text-sm font-normal leading-snug text-muted-foreground">{opt.desc}</span>}</span>
+            return <Button key={opt.value} variant="outline" aria-pressed={selected} onClick={() => { setAnswers((a) => ({ ...a, [currentStep.key]: opt.value })); setStep(step + 1); }} className={`h-auto min-h-0 justify-start gap-3 whitespace-normal rounded-lg border bg-card p-3 text-left ${selected ? "border-primary" : "border-border"}`}>
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-accent text-secondary"><Icon className="!h-4 !w-4" /></span><span><span className="block text-sm font-semibold leading-snug">{opt.label}</span>{opt.desc && <span className="mt-0.5 block text-xs font-normal leading-snug text-muted-foreground">{opt.desc}</span>}</span>
             </Button>;
           })}</div>
           <Button variant="ghost" onClick={() => setStep(Math.max(0, step - 1))} className="mt-8 text-muted-foreground"><ArrowLeft />Back</Button>
