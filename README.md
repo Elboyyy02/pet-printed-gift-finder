@@ -60,7 +60,7 @@ Live Demo: https://pet-printed-gift-finder.lovable.app
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — install with nvm. 
+Prefer working locally? You need Node.js and npm — [install with nvm.](https://github.com/nvm-sh/nvm#installing-and-updating) 
 
 - [Node.js](https://nodejs.org/)
 
