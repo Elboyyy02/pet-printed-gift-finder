@@ -4,9 +4,14 @@ A guided gift discovery experience designed to help customers find personalized,
 
 **Live app**: https://pet-printed-gift-finder.lovable.app
 
-## Build with Lovable
+##  Project Overview
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/1d02a4db-64bf-4928-8a9e-3cc07d599a67).
+The Pet Printed Gift Finder is a prototype designed to simplify gift shopping through a guided questionnaire and personalized product recommendations.
+
+Instead of browsing through a large catalog, users answer a series of simple, connected questions. Based on their responses, the experience helps them discover relevant products from the catalog, with a reason explaining why each recommendation may be a good fit.
+
+The goal is to make gift discovery easier, more engaging, and more personalized while helping customers move from inspiration to product selection.
+
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
 - **Stay in sync**: every change made in Lovable is committed straight to this repository.
