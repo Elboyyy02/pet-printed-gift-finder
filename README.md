@@ -1,6 +1,6 @@
 # Pet Printed Gift Finder
 
-to build an app from a prompt.
+to build an Gift Finder Prototype.
 
 This project was built with [Lovable](https://lovable.dev).
 
