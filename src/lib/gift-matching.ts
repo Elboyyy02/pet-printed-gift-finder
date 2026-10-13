@@ -23,5 +23,5 @@ export function findMatches(answers: Answers): GiftMatch[] {
       + (answers.occasion && product.occasions.includes(answers.occasion) ? 3 : 0)
       + (answers.occasion === "holiday" && product.occasions.length === 1 ? 2 : 0);
     return [{ product, price: variant.price, variant: variant.label, score }];
-  }).sort((a, b) => b.score - a.score).slice(0, 3);
+  }).sort((a, b) => b.score - a.score).slice(0, 5);
 }
