@@ -13,4 +13,4 @@
 - [x] Always show five suggestions, widening past a single product type or budget when the store has more to offer.
 - [x] Replace question 3 with ten specific product choices.
 - [x] Offer five real products with an honest preference-based reason for each suggestion.
-- [x] Verify category matching, alternatives, and the complete quiz.
+- [x] Verify category matching, alternatives, and the complete quiz.- [x] Make "More from the store" open the official pet-printed.com website.
