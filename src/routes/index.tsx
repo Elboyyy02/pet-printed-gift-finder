@@ -107,13 +107,13 @@ function Index() {
             <div className="text-center">
               <span className="inline-flex items-center gap-2 text-sm font-semibold text-secondary"><Sparkles className="h-4 w-4" />More from the store</span>
               <h3 className="mt-3 text-2xl font-extrabold sm:text-3xl">Featured suggestions</h3>
-              <p className="mt-2 text-sm text-muted-foreground">Other personalized Pet Printed gifts worth a look.</p>
+              <p className="mt-2 text-sm text-muted-foreground">More personalized Pet Printed gifts that fit your answers.</p>
             </div>
-            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{featured.map((p) => <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card text-left">
+            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{featured.map(({ product: p, price }) => <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card text-left">
               <img src={p.image} alt={p.name} width={800} height={800} className="aspect-square w-full object-cover transition-opacity group-hover:opacity-90" />
               <div className="flex-1 p-3">
                 <p className="min-h-10 text-xs font-semibold leading-snug">{p.name.replace("Personalized ", "")}</p>
-                <p className="mt-1.5 text-xs text-muted-foreground">{p.priceVaries ? "From " : ""}{money(Math.min(...p.variants.map((v) => v.price)))}</p>
+                <p className="mt-1.5 text-xs text-muted-foreground">{p.priceVaries ? "From " : ""}{money(price)}</p>
               </div>
             </a>)}</div>
           </div>}
