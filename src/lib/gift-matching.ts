@@ -40,7 +40,7 @@ const typeNames: Record<string, string> = {
 };
 
 function reasonFor(product: CatalogProduct, answers: Answers, price: number) {
-  const item = product.name.replace(/^Personalized /, "").split(" - ")[0].toLowerCase();
+  const item = (product.name.replace(/^Personalized /, "").split(" - ")[0] ?? "gift").toLowerCase();
   const pet = answers.pet === "dog" ? "dog lover" : answers.pet === "cat" ? "cat lover" : "pet lover";
   const occasion = answers.occasion === "memorial" ? "to remember a cherished pet" : answers.occasion === "birthday" ? "for their birthday" : answers.occasion === "holiday" ? "for the holidays" : "for an everyday treat";
   const fit = answers.productType && typeNames[answers.productType] && typeAllowed(product, answers)
