@@ -58,4 +58,30 @@ Project: Pet Printed Gift Finder (Prototype)
 
 Live Demo: https://pet-printed-gift-finder.lovable.app
 
+## Development
 
+Prefer working locally? You need Node.js and npm — install with nvm. 
+
+- [Node.js](https://nodejs.org/)
+
+- npm (included with Node.js)
+
+## Installation
+
+1. Clone the repository: 
+
+  git clone https://github.com/Elboyyy02/pet-printed-gift-finder.git
+
+2. Navigate to the project directory:
+
+  cd pet-printed-gift-finder
+
+3. Install dependencies:
+
+  npm install
+
+4. Start the development server:
+
+  npm run dev
+
+5. Open the local URL displayed in your terminal.
