@@ -114,7 +114,7 @@ function Index() {
           </article>)}</div>
           {featured.length > 0 && <div className="mt-14">
             <div className="text-center">
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-secondary"><Sparkles className="h-4 w-4" />More from the store</span>
+              <a href="https://pet-printed.com/" target="_blank" rel="noopener noreferrer" aria-label="More from the store on pet-printed.com" className="inline-flex items-center gap-2 text-sm font-semibold text-secondary underline-offset-4 transition-opacity hover:underline"><Sparkles className="h-4 w-4" />More from the store <ExternalLink className="h-3 w-3" /></a>
               <h3 className="mt-3 text-2xl font-extrabold sm:text-3xl">Featured suggestions</h3>
               <p className="mt-2 text-sm text-muted-foreground">More personalized Pet Printed gifts to explore.</p>
             </div>
