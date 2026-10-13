@@ -22,3 +22,40 @@ The goal is to make gift discovery easier, more engaging, and more personalized 
 
 4. Discover the right gift — Check product details, pricing, and links to explore or purchase the item.
 
+## Project Goals
+
+- Simplify the gift discovery process.
+
+- Help customers find products that better match their needs.
+
+- Make product recommendations easier to understand.
+
+- Create a user-friendly shopping experience that encourages product exploration.
+
+- Demonstrate how a guided product finder can support an e-commerce customer journey.
+
+## Project Status
+
+**Status**: Prototype
+
+This project demonstrates a guided gift discovery experience and can be further developed with improvements to product matching, recommendation logic, analytics, and e-commerce integrations.
+
+## Potential Future Improvements
+
+Improve recommendation relevance using more detailed product attributes.
+
+Add filters for budget, recipient, interests, and occasion.
+
+Track questionnaire completion and product clicks to identify opportunities for improving the customer journey.
+
+Conduct usability testing to identify friction points.
+
+Explore integration with a live product catalog and e-commerce platform.
+
+## Project Information
+
+Project: Pet Printed Gift Finder (Prototype)
+
+Live Demo: https://pet-printed-gift-finder.lovable.app
+
+
