@@ -73,6 +73,10 @@ function Index() {
           <h1 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Pet Printed <span className="text-primary">gift finder</span></h1>
           <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">Apparel, drinkware, home décor, keepsakes and more, made for pet lovers.</p>
           <Button onClick={() => setStep(1)} size="lg" className="mt-7 h-12 px-8 text-base font-bold">Let’s Find Perfect Gifts <ArrowRight /></Button>
+          <p className="mt-4 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm font-semibold text-secondary">
+            <span className="flex gap-0.5 text-primary" aria-hidden="true">{[0, 1, 2, 3, 4].map((i) => <Star key={i} className="h-3.5 w-3.5 fill-current" />)}</span>
+            Over 584,000 happy pet lovers have made it Pet Printed
+          </p>
           <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
             {showcase.map((p) => <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" className="group text-left">
               <img src={p.image} alt={p.name} width={800} height={800} className="aspect-square w-full rounded-lg object-cover transition-opacity group-hover:opacity-90" />
